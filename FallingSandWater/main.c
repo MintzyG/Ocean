@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <curses.h>
 
 #ifndef SIZE_Y
-#define SIZE_Y 32
+#define SIZE_Y LINES
 #endif
 
 #ifndef SIZE_X
-#define SIZE_X 128
+#define SIZE_X COLS
 #endif
 
 int** create() {
@@ -26,9 +27,9 @@ int** create() {
 void print(int** sandbox) {
   for (int i = 0; i < SIZE_Y; i++) {
     for (int j = 0; j < SIZE_X; j++) {
-      printf("%c", sandbox[i][j] ? '@' : '.');
+      printw("%c", sandbox[i][j] ? '@' : '.');
     }
-    printf("\n");
+    move(i, 0);
   }
 }
 
@@ -99,13 +100,19 @@ int proccess(int** sandbox) {
 }
 
 int main() {
+  int row,col;
+
+  initscr();
+  getmaxyx(stdscr, row, col);
+
   srand(time(NULL));
   int **sandbox = create();
-  print(sandbox);
   while (proccess(sandbox)) {
-    printf("\e[1;1H\e[2J");
     print(sandbox);
+    refresh();
     usleep(100 * 1000);
+    clear();
   }
+  endwin();
   return 0;
 }

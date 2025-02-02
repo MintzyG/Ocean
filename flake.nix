@@ -17,6 +17,7 @@
             pkgs.gcc
             pkgs.gdb
             pkgs.gnumake
+            pkgs.ncurses
             pkgs.pkg-config
             pkgs.premake5
           ];
@@ -34,9 +35,10 @@
       devShells.default = pkgs.mkShell {
         buildInputs = [
           pkgs.gcc
-          pkgs.pkg-config
           pkgs.gdb
           pkgs.gnumake
+          pkgs.ncurses
+          pkgs.pkg-config
           pkgs.premake5
         ];
         shellHook = ''
