@@ -100,19 +100,23 @@ int proccess(int** sandbox) {
 }
 
 int main() {
-  int row,col;
+  char str;
 
   initscr();
-  getmaxyx(stdscr, row, col);
+  timeout(100);
 
   srand(time(NULL));
-  int **sandbox = create();
-  while (proccess(sandbox)) {
-    print(sandbox);
-    refresh();
-    usleep(100 * 1000);
-    clear();
+  while (str != 'q'){
+    int **sandbox = create();
+    str = ' ';
+    while (proccess(sandbox) && str != 'q' && str != 'r') {
+      print(sandbox);
+      str = getch();
+      refresh();
+      clear();
+    }
   }
+
   endwin();
   return 0;
 }
