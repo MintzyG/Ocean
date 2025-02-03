@@ -6,7 +6,7 @@
 
 int** create(int size_x, int size_y) {
   int** sandbox = calloc(size_y, sizeof *sandbox);
-  for (int i = 0; i < size_y; i++) {
+  for (int i = 0; i <= size_y; i++) {
     sandbox[i] = calloc(size_x, sizeof *(sandbox[0]));
     for (int j = 0; j < size_x; j++) {
       sandbox[i][j] = !(rand() % 5);
@@ -17,7 +17,7 @@ int** create(int size_x, int size_y) {
 }
 
 void print(int** sandbox, int size_x, int size_y) {
-  for (int i = 0; i < size_y; i++) {
+  for (int i = 0; i <= size_y; i++) {
     for (int j = 0; j < size_x; j++) {
       printw("%c", sandbox[i][j] ? '@' : '.');
     }
@@ -27,7 +27,7 @@ void print(int** sandbox, int size_x, int size_y) {
 
 int proccess(int** sandbox, int size_x, int size_y) {
   int moved = 0, tmp = 0;
-  for (int i = size_y - 1; i >= 0; i--) {
+  for (int i = size_y; i >= 0; i--) {
     for (int j = size_x - 1; j >= 0; j--) {
       // Move Down
       if (i > 0) {
@@ -97,6 +97,7 @@ int main() {
 
   initscr();
   timeout(100);
+  curs_set(0);
 
   srand(time(NULL));
   while (str != 'q'){
