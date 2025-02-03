@@ -27,10 +27,9 @@ void print(int** sandbox, int size_x, int size_y) {
 
 int proccess(int** sandbox, int size_x, int size_y) {
   int moved = 0, tmp = 0;
-  for (int i = size_y; i >= 0; i--) {
+  for (int i = size_y; i > 0; i--) {
     for (int j = size_x - 1; j >= 0; j--) {
       // Move Down
-      if (i > 0) {
         if (sandbox[i][j] == 0 && sandbox[i-1][j] == 1) {
           tmp = sandbox[i][j];
           sandbox[i][j] = sandbox[i-1][j];
@@ -38,10 +37,9 @@ int proccess(int** sandbox, int size_x, int size_y) {
           moved = 1;
           continue;
         }
-      }
 
       // Slide Left
-      if (j > 0 && i > 0) {
+      if (j > 0) {
         if (sandbox[i][j] == 1 && sandbox[i][j-1] == 0 && sandbox[i-1][j] == 1) {
           tmp = sandbox[i-1][j];
           sandbox[i-1][j] = sandbox[i][j-1];
@@ -52,7 +50,7 @@ int proccess(int** sandbox, int size_x, int size_y) {
       }
 
       // Slide Right
-      if (j != size_x - 1 && i > 0) {
+      if (j != size_x - 1) {
         if (sandbox[i][j] == 1 && sandbox[i][j+1] == 0 && sandbox[i-1][j] == 1) {
           tmp = sandbox[i-1][j];
           sandbox[i-1][j] = sandbox[i][j+1];
