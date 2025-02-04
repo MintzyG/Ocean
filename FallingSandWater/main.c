@@ -27,63 +27,58 @@ void print(int** sandbox, int size_x, int size_y) {
 
 int proccess(int** sandbox, int size_x, int size_y) {
   int moved = 0, tmp = 0;
-  for (int i = size_y; i >= 0; i--) {
+  for (int i = size_y; i > 0; i--) {
     for (int j = size_x - 1; j >= 0; j--) {
+      int l = (j + size_x - 1) % size_x;
+      int r = (j + size_x + 1) % size_x;
+
       // Move Down
-      if (i > 0) {
-        if (sandbox[i][j] == 0 && sandbox[i-1][j] == 1) {
-          tmp = sandbox[i][j];
-          sandbox[i][j] = sandbox[i-1][j];
-          sandbox[i-1][j] = tmp;
-          moved = 1;
-          continue;
-        }
+      if (sandbox[i][j] == 0 && sandbox[i-1][j] == 1) {
+        tmp = sandbox[i][j];
+        sandbox[i][j] = sandbox[i-1][j];
+        sandbox[i-1][j] = tmp;
+        moved = 1;
+        continue;
       }
 
+
       // Slide Left
-      if (j > 0 && i > 0) {
-        if (sandbox[i][j] == 1 && sandbox[i][j-1] == 0 && sandbox[i-1][j] == 1) {
-          tmp = sandbox[i-1][j];
-          sandbox[i-1][j] = sandbox[i][j-1];
-          sandbox[i][j-1] = tmp;
-          moved = 1;
-          continue;
-        }
+      if (sandbox[i][j] == 1 && sandbox[i][l] == 0 && sandbox[i-1][j] == 1) {
+        tmp = sandbox[i-1][j];
+        sandbox[i-1][j] = sandbox[i][j-1];
+        sandbox[i][l] = tmp;
+        moved = 1;
+        continue;
       }
 
       // Slide Right
-      if (j != size_x - 1 && i > 0) {
-        if (sandbox[i][j] == 1 && sandbox[i][j+1] == 0 && sandbox[i-1][j] == 1) {
-          tmp = sandbox[i-1][j];
-          sandbox[i-1][j] = sandbox[i][j+1];
-          sandbox[i][j+1] = tmp;
-          moved = 1;
-          continue;
-        }
+      if (sandbox[i][j] == 1 && sandbox[i][r] == 0 && sandbox[i-1][j] == 1) {
+        tmp = sandbox[i-1][j];
+        sandbox[i-1][j] = sandbox[i][r];
+        sandbox[i][r] = tmp;
+        moved = 1;
+        continue;
       }
 
       int side = rand() % 2;
+
       if (side) {
         // Move Left
-        if (j > 0) {
-          if (sandbox[i][j] == 1 && sandbox[i][j-1] == 0) {
-            tmp = sandbox[i][j];
-            sandbox[i][j] = sandbox[i][j-1];
-            sandbox[i][j-1] = tmp;
-            moved = 1;
-            continue;
-          }
+        if (sandbox[i][j] == 1 && sandbox[i][l] == 0) {
+          tmp = sandbox[i][j];
+          sandbox[i][j] = sandbox[i][l];
+          sandbox[i][l] = tmp;
+          moved = 1;
+          continue;
         }
       } else {
         // Move Right
-        if (j != size_x - 1) {
-          if (sandbox[i][j] == 1 && sandbox[i][j+1] == 0) {
-            tmp = sandbox[i][j];
-            sandbox[i][j] = sandbox[i][j+1];
-            sandbox[i][j+1] = tmp;
-            moved = 1;
-            continue;
-          }
+        if (sandbox[i][j] == 1 && sandbox[i][r] == 0) {
+          tmp = sandbox[i][j];
+          sandbox[i][j] = sandbox[i][r];
+          sandbox[i][r] = tmp;
+          moved = 1;
+          continue;
         }
       }
     }
